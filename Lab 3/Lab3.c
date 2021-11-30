@@ -221,7 +221,7 @@ void interrupt_handler(void)
 	   charToPrint = '!';
    }
 	
-   if (ipending & 3){
+   if (ipending & 1<<14){
       		*T1_STATUS = 0;
 		   
 	   if(s1==0){
@@ -236,7 +236,7 @@ void interrupt_handler(void)
    
    }
 	
-	if (ipending & 7){
+	if (ipending & 1<<13){
 		 *T0_STATUS = 0;
 	   if(s==0){
 	   *LEDS = 513;
@@ -288,7 +288,7 @@ void Init (void)
    *PUSHBUTTON_MASK = 3;//0b0011;
    
 	/* set up ienable */
-   NIOS2_WRITE_IENABLE(3);
+   NIOS2_WRITE_IENABLE(0x1 | 1<<13 | 1<<14);
 	/* enable global recognition of interrupts in procr. status reg. */
    NIOS2_WRITE_STATUS(1);
 }
